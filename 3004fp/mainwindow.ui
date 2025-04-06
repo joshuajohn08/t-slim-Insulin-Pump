@@ -1,0 +1,1439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>660</width>
+    <height>535</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>-10</y>
+      <width>1091</width>
+      <height>511</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="profilelogin">
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>40</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Username</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_ProfileSelector">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>110</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Please select profile</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Morning Routine</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Exercise Routine</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Night Routine</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>70</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="plainText">
+       <string>Username</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_createAccount">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>290</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Create Account</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_logInAccount">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>290</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Log into Existing Account</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox_Basal">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>170</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>140</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Basal Rate</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox_ICR_2">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>170</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>140</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Carb Ratio</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox_CF_2">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>230</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>200</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Correction Factor</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>40</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>List of Accounts</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_updateAccount">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>80</y>
+        <width>121</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Update Account</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_deleteAccount">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>110</y>
+        <width>121</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete Account</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox_TargetBG_2">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>230</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>210</y>
+        <width>62</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Target BG</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget_Accounts">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>60</y>
+        <width>256</width>
+        <height>192</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="calculationpage">
+     <widget class="QWidget" name="correctionPrompt" native="true">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>180</y>
+        <width>291</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <widget class="QLabel" name="label_16">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>271</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Do you want to include correction bolus?</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_IncludeCorrection">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>30</y>
+         <width>90</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Yes</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_calcNext">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>220</y>
+        <width>83</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Next Page</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_calcBack">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>220</y>
+        <width>83</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEdit">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>30</y>
+        <width>161</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If you prefer automated CGM, please enter your carbs, set Blood Glucose to 0, then click the button below (Navigate to CGM Page)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_calcBack_2">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>180</y>
+        <width>161</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Navigate to CGM Page</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>20</y>
+        <width>401</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Inputs</string>
+      </property>
+      <widget class="QSpinBox" name="spinBox_Carbs">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>40</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>30</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_31">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>62</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Carbs</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_BG">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>40</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>12</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_32">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>20</y>
+         <width>161</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Blood Glucose (mmol/L)</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_ICR">
+       <property name="geometry">
+        <rect>
+         <x>250</x>
+         <y>40</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>10</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_33">
+       <property name="geometry">
+        <rect>
+         <x>250</x>
+         <y>20</y>
+         <width>151</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>ICR (insulin-carb ratio)</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_CF">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>110</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>2</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_34">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>90</y>
+         <width>161</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>CF (Correction Factor</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_TargetBG">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>110</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>6</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_35">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>90</y>
+         <width>161</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Target BG</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_IOB">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>110</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>90</y>
+         <width>151</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Insulin on Board (IOB)</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>200</y>
+        <width>241</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Delivery Options</string>
+      </property>
+      <widget class="QSpinBox" name="spinBox_Immediate">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>60</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="value">
+        <number>60</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_36">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>30</y>
+         <width>161</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Immediate %</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_Hours">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>60</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_37">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>30</y>
+         <width>161</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Hours (Extended)	</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_ConfirmBolus">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>260</y>
+        <width>181</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Confirm Bolus Plan (Next)</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>40</y>
+        <width>271</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Results</string>
+      </property>
+      <widget class="QLabel" name="labelImmediateDose">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>491</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Immediate Insulin Dose:	</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="spinBox_ImmediateDose">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>30</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelTotalBolus">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>50</y>
+         <width>491</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Total Insulin Administered:</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="spinBox_TotalBolus">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>60</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelExtendedRate">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>80</y>
+         <width>481</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Extended Insulin Delivery:</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="spinBox_ExtendedRate">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>90</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_Calculate">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>0</y>
+         <width>171</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Calculate Final Bolus Plan</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="confirmationPage">
+     <widget class="QGroupBox" name="groupBox_ConfirmRequest">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>190</y>
+        <width>201</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Confirm Request?</string>
+      </property>
+      <widget class="QLabel" name="label_ConfirmCarbs">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>151</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Carbs: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_ConfirmBG">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>50</y>
+         <width>161</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>BG: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_ConfirmUnits">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>80</y>
+         <width>191</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Units to Deliver:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_ConfirmYes">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>120</y>
+         <width>83</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+      <zorder>pushButton_ConfirmYes</zorder>
+      <zorder>label_ConfirmCarbs</zorder>
+      <zorder>label_ConfirmBG</zorder>
+      <zorder>label_ConfirmUnits</zorder>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_DeliverBolus">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>190</y>
+        <width>201</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Deliver Bolus?</string>
+      </property>
+      <widget class="QLabel" name="label_CorrectionAmount">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>40</y>
+         <width>141</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Correction: </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_FoodAmount">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>70</y>
+         <width>131</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Food: </string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_FinalDeliver">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>120</y>
+         <width>83</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_Extended">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>90</y>
+         <width>90</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Extended?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_DeliverAmountTitle">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>211</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Total Bolus Delivered: </string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_ExtendedOptions">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>190</y>
+        <width>201</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <widget class="QPushButton" name="pushButton_extendedConf">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>130</y>
+         <width>83</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_ExtendedHeader">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>211</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Food Bolus:</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_ExtendedNow">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_ExtendedLater">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>40</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_ExtendedDuration">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_ViewUnits">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>90</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>View Units</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_ExtendedHeader_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>81</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>% Now</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_ExtendedHeader_3">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>20</y>
+         <width>81</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>% Later</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_ExtendedHeader_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>91</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Duration (hrs)</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_confBack">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>380</y>
+        <width>83</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_confNext">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>380</y>
+        <width>83</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Next Page</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="extendedSummaryPage">
+     <widget class="QGroupBox" name="groupBox_ConfirmRequest_2">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>200</y>
+        <width>231</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Additional Confirmation</string>
+      </property>
+      <widget class="QLabel" name="label_SummaryTotalBolus">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>151</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Deliver X u Bolus?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_SummaryLater">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>80</y>
+         <width>161</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Later: ...</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_SummaryDuration">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>110</y>
+         <width>191</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Duration: ...</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_summaryConfirm_clicked">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>130</y>
+         <width>83</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_SummaryNowCorrection">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>50</y>
+         <width>211</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Now + Correction: …</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_PercentBreakdown">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>200</y>
+        <width>201</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Confirm Request?</string>
+      </property>
+      <widget class="QLabel" name="label_PercentNow">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>151</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Deliver Now X%</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_PercentLater">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>50</y>
+         <width>161</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Deliver Later X%</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_PercentDuration">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>80</y>
+         <width>191</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Duration: X hrs:min</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_CancelConfirm_2">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>120</y>
+         <width>83</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Back</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="bolusInitiatedPage">
+     <widget class="QGroupBox" name="groupBox_BolusSummary">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>200</y>
+        <width>201</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Bolus Status</string>
+      </property>
+      <widget class="QLabel" name="label_BolusAmounts">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>80</y>
+         <width>201</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>X u Now + Y u Later</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_FinalDeliver_3">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>120</y>
+         <width>83</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_BolusTitle">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>40</y>
+         <width>211</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Bolus Initiated!</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_bolusInitBack">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>370</y>
+        <width>83</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="manualBolusPage">
+     <widget class="QGroupBox" name="groupBox_ManualDelivery">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>270</y>
+        <width>201</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Manual Bolus Delivery</string>
+      </property>
+      <widget class="QPushButton" name="pushButton_BackToConfirm_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>83</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Back</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_StopDelivery">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>70</y>
+         <width>83</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Stop</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_ManualRequest">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>30</y>
+         <width>211</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Requesting X u Bolus</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="cgmPage">
+     <widget class="QPlainTextEdit" name="plainTextEdit_CGMLogs">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>271</width>
+        <height>171</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>10</y>
+        <width>141</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Log of events</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="chartContainer" native="true">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>250</y>
+        <width>701</width>
+        <height>311</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_CGMStatus">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>40</y>
+        <width>241</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Status:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_StartCGM">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>220</y>
+        <width>83</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start CGM</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_StopCGM">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>220</y>
+        <width>83</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop CGM</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_CurrentBG">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>40</y>
+        <width>201</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>BG</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>62</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Status:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>20</y>
+        <width>62</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>BG:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_StartCGM_2">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>220</y>
+        <width>83</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QProgressBar" name="batteryProgressBar">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>118</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>100</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="chargeButton">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>10</y>
+      <width>83</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Charge</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="insulinProgressBar">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>118</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>300</number>
+    </property>
+    <property name="value">
+     <number>100</number>
+    </property>
+    <property name="format">
+     <string notr="true">%v u</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>660</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuInsulin_Tandem">
+    <property name="title">
+     <string>Insulin Tandem</string>
+    </property>
+   </widget>
+   <addaction name="menuInsulin_Tandem"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

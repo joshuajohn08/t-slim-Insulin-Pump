@@ -12,7 +12,7 @@ sudo apt install libqt5charts5-dev
 How to Build and Run in Qt Creator:
 1. Open Qt Creator.
 2. Select 'Open Project' and choose the .pro file or CMakeLists.txt if available.
-3. Configure the project with your preferred kit (e.g., Desktop Qt 5.15 GCC 64bit).
+3. Configure the project with your preferred kit
 4. Click the 'Run' button or use Ctrl+R to compile and execute the application.
 
 File Descriptions:

@@ -37,6 +37,9 @@ public:
     // Delete a user profile
     bool deleteProfile(const QString& profileName);
 
+    // Helper function to fix update profile issue
+    bool createOrUpdateProfile(const QString& profileName, double basalRate, double carbRatio, double correctionFactor, double targetBG);
+
 private:
     std::map<QString, Profile> profiles;  // Stores all user profiles
     QString activeProfile;                // Name of the active profile

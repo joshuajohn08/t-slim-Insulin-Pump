@@ -55,6 +55,7 @@ private slots:
     void on_pushButton_createAccount_clicked();
     void on_pushButton_updateAccount_clicked();
     void on_pushButton_deleteAccount_clicked();
+    void populateCalculationFromProfile(Profile* profile);
 
     // Navigation and UI interactions
     void on_pushButton_ViewUnits_clicked();
@@ -79,6 +80,8 @@ private slots:
 
     // Stop ongoing insulin delivery
     void on_pushButton_StopDelivery_clicked();
+
+    void on_pushButton_calcBack_clicked();
 
 private:
     Ui::MainWindow *ui;

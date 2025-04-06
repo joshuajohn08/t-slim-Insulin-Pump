@@ -31,6 +31,12 @@ Profile* User::getProfile(const QString& profileName) {
     return nullptr;
 }
 
+// Creates a new profile or updates an existing one with the given parameters
+bool User::createOrUpdateProfile(const QString& profileName, double basalRate, double carbRatio, double correctionFactor, double targetBG) {
+    profiles[profileName] = {profileName, basalRate, carbRatio, correctionFactor, targetBG};
+    return true;
+}
+
 // Retrieves a list of all stored profile names
 std::vector<QString> User::getAllProfileNames() const {
     std::vector<QString> profileNames;

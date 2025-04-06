@@ -694,26 +694,56 @@ void MainWindow::on_pushButton_BackToConfirm_4_clicked() {
 void MainWindow::on_pushButton_logInAccount_clicked() {
     QListWidgetItem *selectedItem = ui->listWidget_Accounts->currentItem();
     if (!selectedItem) {
-        qDebug() << "No account selected!";
+        qDebug() << "[Login] No account selected!";
         return;
     }
 
     QString username = selectedItem->text();
-    user.setActiveProfile(username); // Activate the selected profile
+    qDebug() << "[Login] Attempting to log in with username:" << username;
+
+    // Read spinboxes from profile page (values manually set before login)
+    double basalRate_input = ui->spinBox_Basal->value();
+    double icr_input = ui->spinBox_ICR_2->value();
+    double cf_input = ui->spinBox_CF_2->value();
+    double target_input = ui->spinBox_TargetBG_2->value();
+
+    qDebug() << "[Login] Spinbox values BEFORE login:";
+    qDebug() << "  Basal Rate:" << basalRate_input;
+    qDebug() << "  Carb Ratio (ICR):" << icr_input;
+    qDebug() << "  Correction Factor (CF):" << cf_input;
+    qDebug() << "  Target BG:" << target_input;
+
+    // Save these values into the profile before setting active
+    user.createOrUpdateProfile(username, basalRate_input, icr_input, cf_input, target_input);
+
+    // Set active profile
+    user.setActiveProfile(username);
     Profile* current = user.getActiveProfile();
 
     if (current) {
-        // Load profile settings into UI
+        qDebug() << "[Login] Retrieved profile from user object:";
+        qDebug() << "  Basal Rate:" << current->basalRate;
+        qDebug() << "  Carb Ratio (ICR):" << current->carbRatio;
+        qDebug() << "  Correction Factor (CF):" << current->correctionFactor;
+        qDebug() << "  Target BG:" << current->targetBG;
+
+        // Update spinboxes to reflect the profile (should match what was just saved)
         ui->spinBox_Basal->setValue(current->basalRate);
+        ui->spinBox_ICR_2->setValue(current->carbRatio);
+        ui->spinBox_CF_2->setValue(current->correctionFactor);
+        ui->spinBox_TargetBG_2->setValue(current->targetBG);
+
+        // Update calculation page
         ui->spinBox_ICR->setValue(current->carbRatio);
         ui->spinBox_CF->setValue(current->correctionFactor);
         ui->spinBox_TargetBG->setValue(current->targetBG);
-        qDebug() << "Logged in as:" << username;
+
+        qDebug() << "[Login] Spinboxes updated across both pages.";
     } else {
-        qDebug() << "Profile not found for:" << username;
+        qDebug() << "[Login] Profile not found!";
     }
 
-    ui->stackedWidget->setCurrentWidget(ui->calculationpage); // Move to calculator
+    ui->stackedWidget->setCurrentWidget(ui->calculationpage);
 }
 
 void MainWindow::on_pushButton_createAccount_clicked() {
@@ -724,10 +754,13 @@ void MainWindow::on_pushButton_createAccount_clicked() {
     double correctionFactor = ui->spinBox_CF_2->value();
     double targetBG = ui->spinBox_TargetBG_2->value();
 
-    user.editProfile(username, basalRate, carbRatio, correctionFactor, targetBG);
-    qDebug() << "Profile created for:" << username;
+    // Save profile under username
+    bool created = user.editProfile(username, basalRate, carbRatio, correctionFactor, targetBG);
+    if (created) {
+        qDebug() << "Profile created for:" << username;
+    }
 
-    // Add new user to the account list if not already present
+    // Add to account list if not already there
     QList<QListWidgetItem*> items = ui->listWidget_Accounts->findItems(username, Qt::MatchExactly);
     if (items.isEmpty()) {
         ui->listWidget_Accounts->addItem(username);
@@ -767,5 +800,16 @@ void MainWindow::on_pushButton_deleteAccount_clicked()
     qDebug() << "Profile deleted:" << profileName;
 }
 
+void MainWindow::on_pushButton_calcBack_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->profilelogin); // Go back to profile page
+}
 
+void MainWindow::populateCalculationFromProfile(Profile* profile) {
+    if (!profile) return;
 
+    // Ensures spinbox values in calculationpage correspond to values from profile page
+    ui->spinBox_ICR->setValue(profile->carbRatio);
+    ui->spinBox_CF->setValue(profile->correctionFactor);
+    ui->spinBox_TargetBG->setValue(profile->targetBG);
+}

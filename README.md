@@ -37,8 +37,8 @@ mainwindow.ui - Contains the GUI layout for all stacked pages including the prof
 
 Members & Responsiblities:
 
-Arhaan Wazid - Developer
-Holly Phamisith - Developer + Diagrams
-Nooreen Pasha - Diagrams
-Shafia Ahmed - Developer + Diagrams
-Joshua John - Developer + Diagrams
+Arhaan Wazid - Developer (CGMManager, MainWindow) + Diagrams
+Holly Phamisith - Developer (SafetyController, MainWindow) + Diagrams
+Nooreen Pasha - Developer (user, MainWindow) + Diagrams
+Shafia Ahmed - Developer (user, MainWindow) + Diagrams
+Joshua John - Developer (BolusManager, MainWindow) + Diagrams

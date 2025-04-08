@@ -34,3 +34,11 @@ user.cpp - Implements profile creation, editing, deletion, and syncing between p
 
 Forms:
 mainwindow.ui - Contains the GUI layout for all stacked pages including the profile manager, bolus calculator, confirmation screen, and CGM monitoring page.
+
+Members & Responsiblities:
+
+Arhaan Wazid - Developer
+Holly Phamisith - Developer + Diagrams
+Nooreen Pasha - Diagrams
+Shafia Ahmed - Developer + Diagrams
+Joshua John - Developer + Diagrams

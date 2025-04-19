@@ -17,14 +17,14 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>-10</x>
-      <y>-10</y>
+      <x>0</x>
+      <y>40</y>
       <width>1091</width>
       <height>511</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="profilelogin">
      <widget class="QLabel" name="label">
@@ -1367,6 +1367,36 @@ p, li { white-space: pre-wrap; }
       <property name="text">
        <string>Back</string>
       </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_CGM_Duration">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>220</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Please Select</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>1 hour (12 seconds real-time)</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>3 hours (36 seconds real-time)</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>6 hours (72 seconds real-time)</string>
+       </property>
+      </item>
      </widget>
     </widget>
    </widget>

@@ -111,6 +111,10 @@ private:
     void handleCGMReading(double glucoseLevel);
     void startCGMSimulation();
     void updatePredictions(double currentTime, double currentGlucose);
+    int cgmSimDuration = 0; // Default: 1 hour = 12 seconds
+    int cgmSimElapsed = 0;
+    int cgmSimulatedSeconds = 0;
+
 
     QTimer *cgmSimulationTimer;     // Timer to simulate CGM readings
 

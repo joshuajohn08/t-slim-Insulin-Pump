@@ -258,8 +258,6 @@ void MainWindow::on_pushButton_ConfirmYes_clicked() {
 }
 
 void MainWindow::on_pushButton_FinalDeliver_clicked() {
-    qDebug() << "Final Deliver Button Clicked";
-
     BolusResult result = bolusManager.getLastResult();
     double finalBolus = result.finalBolus;
     double foodBolus = result.carbBolus;
@@ -293,7 +291,6 @@ void MainWindow::on_pushButton_FinalDeliver_clicked() {
 
     ui->label_BolusAmounts->setText(bolusText);
     ui->stackedWidget->setCurrentWidget(ui->bolusInitiatedPage);
-    qDebug() << "Navigated to bolusInitiatedPage (non-extended)";
 }
 
 void MainWindow::on_pushButton_ViewUnits_clicked() {
@@ -379,7 +376,6 @@ void MainWindow::on_pushButton_summaryConfirm_clicked_clicked() {
 
     ui->label_BolusAmounts->setText(bolusText);
     ui->stackedWidget->setCurrentWidget(ui->bolusInitiatedPage);
-    qDebug() << "Navigated to bolusInitiatedPage (extended)";
 }
 
 void MainWindow::on_pushButton_FinalDeliver_3_clicked() {
@@ -521,77 +517,68 @@ void MainWindow::setupGlucoseChart() {
 
 // CGM Monitoring
 void MainWindow::startCGMSimulation() {
-    // Initialize chart if needed
-    if (!glucoseChart) {
-        setupGlucoseChart();
-    }
-
-    // Clear chart data
     glucoseSeries->clear();
     predictionSeries->clear();
 
-    // Use BG input or generate random initial value
-    double initialGlucose = ui->spinBox_BG->value();
-    if (initialGlucose <= 0.0) {
-        initialGlucose = 4.0 + (QRandomGenerator::global()->generateDouble() * 6.0); // 4–10 mmol/L
-        initialGlucose = qRound(initialGlucose * 10) / 10.0;
-        qDebug() << "Generated initial glucose:" << initialGlucose;
-    }
+    cgmSimDuration = 12; // default to 1 hour (12s)
+    cgmSimElapsed = 0;
 
-    // Start at time = 0 minutes
-    double currentTime = 0;
-    updateGlucoseChart(currentTime, initialGlucose);
-    handleCGMReading(initialGlucose); // Process reading (alerts, logging, etc.)
+    // Set simulation duration based on user selection
+    QString selection = ui->comboBox_CGM_Duration->currentText(); // or your method
+    int minutesPerSecond = 5;
+    if (selection == "1 hour") cgmSimDuration = (60 / minutesPerSecond);  // 12
+    else if (selection == "3 hours") cgmSimDuration = (180 / minutesPerSecond);  // 36
+    else if (selection == "6 hours") cgmSimDuration = (360 / minutesPerSecond);  // 72
 
-    // Simulate CGM: 1 update per 5 seconds = 5 minutes real-time
-    cgmSimulationTimer->start(5000);
 
-    // UI updates
+    cgmSimElapsed = 0; // reset counter
+    cgmSimulationTimer->start(1000); // 1 sec = 5 minutes simulated
+
+
+    cgmSimulatedSeconds = 0;
+
+    double initialBG = ui->spinBox_BG->value();
+    if (initialBG <= 0) initialBG = 4.0 + QRandomGenerator::global()->bounded(6.0);
+
+    updateGlucoseChart(0, initialBG);
+    handleCGMReading(initialBG);
+
+    //cgmSimulationTimer->start(1000); // 1 real second = 5 simulated minutes
     ui->label_CGMStatus->setText("CGM Monitoring: Active");
-    ui->label_CGMStatus->setStyleSheet("");
     ui->stackedWidget->setCurrentWidget(ui->cgmPage);
 
-    // Log simulation start
     ui->plainTextEdit_CGMLogs->appendPlainText(
-        QString("[%1] CGM Monitoring Started - Initial BG: %2 mmol/L")
+        QString("[%1] CGM Monitoring Started - Duration: %2 seconds")
         .arg(QDateTime::currentDateTime().toString("hh:mm:ss"))
-        .arg(initialGlucose, 0, 'f', 1)
-    );
+        .arg(cgmSimDuration));
 }
+
 
 void MainWindow::updateCGMDisplay() {
-    // Simulated CGM reading based on insulin, carbs, and noise
-    static int timeElapsed = 5; // Time starts at 5 minutes after initial reading
+    cgmSimElapsed++;
+    if (cgmSimElapsed >= cgmSimDuration) {
+        cgmSimulationTimer->stop();
+        ui->label_CGMStatus->setText("CGM Simulation Complete");
+        return;
+    }
+
+
+    int simulatedMinutes = cgmSimulatedSeconds * 5;
 
     double currentBG = ui->spinBox_BG->value();
+    double insulinEffect = ui->spinBox_IOB->value() * 0.05;
+    double carbEffect = ui->spinBox_Carbs->value() * 0.01;
+    double noise = (QRandomGenerator::global()->bounded(60) - 30) * 0.01;
 
-    // Estimate effects of insulin and carbs
-    double insulinEffect = ui->spinBox_IOB->value() * 0.05; // Lowers BG
-    double carbEffect = ui->spinBox_Carbs->value() * 0.01;  // Raises BG
-
-    // Add random fluctuation in range [-0.3, +0.3]
-    double randomVariation = ((QRandomGenerator::global()->bounded(60) - 30) * 0.01);
-
-    // Compute new BG value
-    double newBG = currentBG + carbEffect - insulinEffect + randomVariation;
-
-    // Clamp to safe physiological bounds
+    double newBG = currentBG + carbEffect - insulinEffect + noise;
     if (newBG < 2.5) newBG = 2.5;
-    if (newBG > 20.0) newBG = 20.0;
+    else if (newBG > 20.0) newBG = 20.0;
 
-    // Update displayed BG and chart
     ui->spinBox_BG->setValue(newBG);
-    updateGlucoseChart(timeElapsed, newBG);
-    handleCGMReading(newBG); // Check for alerts
-
-    // Advance time
-    timeElapsed += 5;
-
-    // Extend chart if needed
-    if (timeElapsed >= glucoseAxisX->max()) {
-        glucoseAxisX->setRange(0, glucoseAxisX->max() + 30);
-    }
+    updateGlucoseChart(simulatedMinutes, newBG);
+    handleCGMReading(newBG);
 }
+
 
 void MainWindow::handleCGMReading(double glucoseLevel) {
     // Update the current BG value on the label

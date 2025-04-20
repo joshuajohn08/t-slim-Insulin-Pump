@@ -39,7 +39,11 @@ public slots:
     void decreaseInsulin();
 
     // Update insulin level on manual delivery
-    void registerInsulinDelivery(int);
+    void registerInsulinDelivery(double);
+
+    void setBasalRate(double rate);
+    void adjustBasalRate(double adjustment);
+    double getBasalRate() const;
 
 private:
     int batteryLevel;                 // Current battery percentage
@@ -48,6 +52,8 @@ private:
 
     int insulinLevel = 100;          // Initial insulin units
     bool lowInsulinWarned = false;   // Tracks if low insulin warning has been issued
+    double currentBasalRate = 1.0; // Default rate in u/h
+
 };
 
 #endif // SAFETYCONTROLLER_H

@@ -65,13 +65,9 @@ MainWindow::MainWindow(QWidget *parent)
         QApplication::quit();
     });
 
-    // Insulin decay simulation
-    QTimer *insulinTimer = new QTimer(this);
-    connect(insulinTimer, &QTimer::timeout, controller, &SafetyController::decreaseInsulin);
-    insulinTimer->start(1000); // every second
-
     // Insulin progress bar updates
     connect(controller, &SafetyController::insulinLevelUpdated, this, [=](int level) {
+        qDebug() << "[UI] Updating insulinProgressBar:" << level << "units";
         ui->insulinProgressBar->setValue(level);
         if (level <= 50)
             ui->insulinProgressBar->setStyleSheet("QProgressBar::chunk { background-color: red; }");
@@ -90,6 +86,10 @@ MainWindow::MainWindow(QWidget *parent)
         cancelExtendedBolus = true;
         QMessageBox::information(this, "Delivery Stopped", "Extended bolus delivery has been canceled.");
     });
+
+    double newIOB = qMax(0.0, ui->doubleSpinBox_IOB->value() - 0.1); // Decrease IOB every 5 min
+    ui->doubleSpinBox_IOB->setValue(newIOB);
+
 }
 
 MainWindow::~MainWindow()
@@ -99,18 +99,18 @@ MainWindow::~MainWindow()
 
 // Handles bolus confirmation from user
 void MainWindow::on_bolusConfirmButton_clicked() {
-    double carbs = ui->spinBox_Carbs->value();
-    double bg = ui->spinBox_BG->value();
-    double icr = ui->spinBox_ICR->value();
-    double cf = ui->spinBox_CF->value();
-    double targetBG = ui->spinBox_TargetBG->value();
-    double iob = ui->spinBox_IOB->value();
+    double carbs = ui->doubleSpinBox_Carbs->value();
+    double bg = ui->doubleSpinBox_BG->value();
+    double icr = ui->doubleSpinBox_ICR->value();
+    double cf = ui->doubleSpinBox_CF->value();
+    double targetBG = ui->doubleSpinBox_TargetBG->value();
+    double iob = ui->doubleSpinBox_IOB->value();
 
     auto result = bolusManager.calculateBolus(carbs, bg, icr, cf, targetBG, iob);
     QString deliveryLog = bolusManager.deliverBolus(result, true);
 
     double updatedIOB = bolusManager.updateIOB(iob, result.finalBolus);
-    ui->spinBox_IOB->setValue(updatedIOB);
+    ui->doubleSpinBox_IOB->setValue(updatedIOB);
     calculateBolus();  // Update UI labels
 }
 
@@ -159,12 +159,12 @@ void MainWindow::on_ExtendedLaterChanged(int value) {
 
 // Calculates and updates bolus UI values
 void MainWindow::calculateBolus() {
-    double carbs = ui->spinBox_Carbs->value();
-    double bg = ui->spinBox_BG->value();
-    double iob = ui->spinBox_IOB->value();
-    double icr = ui->spinBox_ICR->value();
-    double cf = ui->spinBox_CF->value();
-    double target = ui->spinBox_TargetBG->value();
+    double carbs = ui->doubleSpinBox_Carbs->value();
+    double bg = ui->doubleSpinBox_BG->value();
+    double iob = ui->doubleSpinBox_IOB->value();
+    double icr = ui->doubleSpinBox_ICR->value();
+    double cf = ui->doubleSpinBox_CF->value();
+    double target = ui->doubleSpinBox_TargetBG->value();
     double fraction = ui->spinBox_Immediate->value() / 100.0;
     int hours = ui->doubleSpinBox_Hours->value();
 
@@ -189,8 +189,8 @@ void MainWindow::calculateBolus() {
 
 void MainWindow::on_pushButton_ConfirmRequest_clicked() {
     // Gather user-entered values
-    double carbs = ui->spinBox_Carbs->value();
-    double bg = ui->spinBox_BG->value();
+    double carbs = ui->doubleSpinBox_Carbs->value();
+    double bg = ui->doubleSpinBox_BG->value();
     double totalBolus = ui->spinBox_TotalBolus->value();
 
     // Update labels on the confirmation screen
@@ -220,8 +220,8 @@ void MainWindow::on_pushButton_ConfirmBolus_clicked() {
     ui->stackedWidget->setCurrentWidget(ui->confirmationPage);
 
     // Set confirmation labels
-    double carbs = ui->spinBox_Carbs->value();
-    double bg = ui->spinBox_BG->value();
+    double carbs = ui->doubleSpinBox_Carbs->value();
+    double bg = ui->doubleSpinBox_BG->value();
     double totalBolus = ui->spinBox_TotalBolus->value();
     ui->label_ConfirmCarbs->setText(QString("Carbs: %1 g").arg(carbs));
     ui->label_ConfirmBG->setText(QString("BG: %1 mmol/L").arg(bg, 0, 'f', 1));
@@ -238,12 +238,12 @@ void MainWindow::on_pushButton_CancelConfirm_clicked() {
 
 void MainWindow::on_pushButton_ConfirmYes_clicked() {
     // Recalculate bolus using current settings
-    double carbs = ui->spinBox_Carbs->value();
-    double bg = ui->spinBox_BG->value();
-    double icr = ui->spinBox_ICR->value();
-    double cf = ui->spinBox_CF->value();
-    double targetBG = ui->spinBox_TargetBG->value();
-    double iob = ui->spinBox_IOB->value();
+    double carbs = ui->doubleSpinBox_Carbs->value();
+    double bg = ui->doubleSpinBox_BG->value();
+    double icr = ui->doubleSpinBox_ICR->value();
+    double cf = ui->doubleSpinBox_CF->value();
+    double targetBG = ui->doubleSpinBox_TargetBG->value();
+    double iob = ui->doubleSpinBox_IOB->value();
     double frac = ui->spinBox_Immediate->value() / 100.0;
     int hours = ui->doubleSpinBox_Hours->value();
 
@@ -284,8 +284,8 @@ void MainWindow::on_pushButton_FinalDeliver_clicked() {
     }
 
     // Immediate-only bolus delivery
-    double updatedIOB = bolusManager.updateIOB(ui->spinBox_IOB->value(), finalBolus);
-    ui->spinBox_IOB->setValue(updatedIOB);
+    double updatedIOB = bolusManager.updateIOB(ui->doubleSpinBox_IOB->value(), finalBolus);
+    ui->doubleSpinBox_IOB->setValue(updatedIOB);
 
     QString bolusText = QString("%1 u Now + %2 u Later")
                             .arg(immediate, 0, 'f', 3)
@@ -473,7 +473,7 @@ void MainWindow::setupGlucoseChart() {
     double targetLow = 4.0;
     QLineSeries *targetLowLine = new QLineSeries();
     targetLowLine->append(0, targetLow);
-    targetLowLine->append(60, targetLow);
+    targetLowLine->append(300, targetLow);
     targetLowLine->setName("Target Low");
     QPen lowPen(QColor(0, 180, 0));
     lowPen.setWidth(1);
@@ -487,7 +487,7 @@ void MainWindow::setupGlucoseChart() {
     double targetHigh = 7.0;
     QLineSeries *targetHighLine = new QLineSeries();
     targetHighLine->append(0, targetHigh);
-    targetHighLine->append(60, targetHigh);
+    targetHighLine->append(300, targetHigh);
     targetHighLine->setName("Target High");
     QPen highPen(QColor(180, 0, 0));
     highPen.setWidth(1);
@@ -521,6 +521,11 @@ void MainWindow::setupGlucoseChart() {
 
 // CGM Monitoring
 void MainWindow::startCGMSimulation() {
+    timeElapsed = 0;
+
+    simulatedMinutesElapsed = 0;
+    simulatedStartTime = QTime(0, 0); // Start at 00:00
+
     // Initialize chart if needed
     if (!glucoseChart) {
         setupGlucoseChart();
@@ -531,7 +536,7 @@ void MainWindow::startCGMSimulation() {
     predictionSeries->clear();
 
     // Use BG input or generate random initial value
-    double initialGlucose = ui->spinBox_BG->value();
+    double initialGlucose = ui->doubleSpinBox_BG->value();
     if (initialGlucose <= 0.0) {
         initialGlucose = 4.0 + (QRandomGenerator::global()->generateDouble() * 6.0); // 4–10 mmol/L
         initialGlucose = qRound(initialGlucose * 10) / 10.0;
@@ -544,7 +549,17 @@ void MainWindow::startCGMSimulation() {
     handleCGMReading(initialGlucose); // Process reading (alerts, logging, etc.)
 
     // Simulate CGM: 1 update per 5 seconds = 5 minutes real-time
-    cgmSimulationTimer->start(5000);
+    //cgmSimulationTimer->start(5000);
+
+    // Determine user-selected duration
+    QString selected = ui->comboBox_CGM_Duration->currentText();
+    if (selected == "1 hour") cgmSimDuration = 12;
+    else if (selected == "3 hours") cgmSimDuration = 36;
+    else if (selected == "6 hours") cgmSimDuration = 72;
+    else cgmSimDuration = 12; // fallback default
+
+    cgmSimElapsed = 0;
+    cgmSimulationTimer->start(1000); // 1 real second = 5 min simulated
 
     // UI updates
     ui->label_CGMStatus->setText("CGM Monitoring: Active");
@@ -560,16 +575,26 @@ void MainWindow::startCGMSimulation() {
 }
 
 void MainWindow::updateCGMDisplay() {
-    // Simulated CGM reading based on insulin, carbs, and noise
-    static int timeElapsed = 5; // Time starts at 5 minutes after initial reading
+    // Stops display after duration has fully passed
+    cgmSimElapsed++;
+    if (cgmSimElapsed > cgmSimDuration) {
+        cgmSimulationTimer->stop();
+        ui->label_CGMStatus->setText("CGM Simulation Complete");
+        return;
+    }
 
-    double currentBG = ui->spinBox_BG->value();
+    double currentBG = ui->doubleSpinBox_BG->value();
 
-    // Estimate effects of insulin and carbs
-    double insulinEffect = ui->spinBox_IOB->value() * 0.05; // Lowers BG
-    double carbEffect = ui->spinBox_Carbs->value() * 0.01;  // Raises BG
+    double insulinEffect = ui->doubleSpinBox_IOB->value() * 0.08;
+    double carbEffect = ui->doubleSpinBox_Carbs->value() * 0.008;
 
-    // Add random fluctuation in range [-0.3, +0.3]
+    // Decay logic
+    double newIOB = qMax(0.0, ui->doubleSpinBox_IOB->value() - 0.1);
+    ui->doubleSpinBox_IOB->setValue(newIOB);
+
+    double newCarbs = qMax(0.0, ui->doubleSpinBox_Carbs->value() - 0.2);
+    ui->doubleSpinBox_Carbs->setValue(newCarbs);
+
     double randomVariation = ((QRandomGenerator::global()->bounded(60) - 30) * 0.01);
 
     // Compute new BG value
@@ -579,25 +604,61 @@ void MainWindow::updateCGMDisplay() {
     if (newBG < 2.5) newBG = 2.5;
     if (newBG > 20.0) newBG = 20.0;
 
-    // Update displayed BG and chart
-    ui->spinBox_BG->setValue(newBG);
-    updateGlucoseChart(timeElapsed, newBG);
-    handleCGMReading(newBG); // Check for alerts
-
     // Advance time
     timeElapsed += 5;
+    simulatedMinutesElapsed += 5; // Each update = 5 minutes of simulated time
 
     // Extend chart if needed
     if (timeElapsed >= glucoseAxisX->max()) {
         glucoseAxisX->setRange(0, glucoseAxisX->max() + 30);
     }
+
+    // Simulate basal insulin use
+    double basalRate = controller->getBasalRate(); // units/hour
+    double basalUsed = basalRate / 12.0;           // units per 5 minutes
+    controller->registerInsulinDelivery(-basalUsed); // depletes insulin
+
+    // Update displayed BG and chart
+    ui->doubleSpinBox_BG->setValue(newBG);
+    updateGlucoseChart(timeElapsed, newBG);
+    handleCGMReading(newBG); // Check for alerts
+}
+
+bool MainWindow::canAutoCorrect() {
+    QDateTime now = QDateTime::currentDateTime();
+    static QDateTime lastCorrectionTime = now.addSecs(-1800); // Initialize in past
+
+    int secondsSinceLast = lastCorrectionTime.secsTo(now);
+    if (secondsSinceLast < 1800) return false;
+
+    lastCorrectionTime = now;
+    return true;
 }
 
 void MainWindow::handleCGMReading(double glucoseLevel) {
-    // Update the current BG value on the label
+
+    double newBG = glucoseLevel;
+    double IOB = ui->doubleSpinBox_IOB->value();
+    double carbs = ui->doubleSpinBox_Carbs->value();
+    double basalRate = ui->spinBox_Basal->value();
+    double CF = ui->doubleSpinBox_CF->value(); // correction factor
+    QDateTime now = QDateTime::currentDateTime();
+
     ui->label_CurrentBG->setText(QString("%1 mmol/L").arg(glucoseLevel, 0, 'f', 1));
 
-    // Set CGM status alert based on glucose thresholds
+    // Log raw values used for decision making
+    double targetBG = ui->doubleSpinBox_TargetBG->value();
+    double cf = ui->doubleSpinBox_CF->value();
+    QString simTime = QString("%1:%2")
+        .arg(timeElapsed / 60, 2, 10, QChar('0'))  // hours
+        .arg(timeElapsed % 60, 2, 10, QChar('0')); // minutes
+
+
+    qDebug() << "[DEBUG] BG =" << glucoseLevel
+             << "| Target BG =" << targetBG
+             << "| CF =" << cf;
+
+    // Alert Label Logic
     if (glucoseLevel <= 3.9) {
         ui->label_CGMStatus->setText("ALERT: Low Glucose");
         ui->label_CGMStatus->setStyleSheet("color: red; font-weight: bold;");
@@ -609,27 +670,80 @@ void MainWindow::handleCGMReading(double glucoseLevel) {
         ui->label_CGMStatus->setStyleSheet("");
     }
 
-    // Build log entry with timestamp
-    QString logEntry = QString("[%1] BG: %2 mmol/L")
-                       .arg(QDateTime::currentDateTime().toString("hh:mm:ss"))
-                       .arg(glucoseLevel, 0, 'f', 1);
+    QString logEntry = QString("[%1] BG: %2 mmol/L").arg(simTime).arg(glucoseLevel, 0, 'f', 1);
 
-    // Perform correction if glucose exceeds threshold
-    double targetBG = ui->spinBox_TargetBG->value();
-    if (glucoseLevel > targetBG + 2.0) {
-        double correction = (glucoseLevel - targetBG) / ui->spinBox_CF->value();
+    // Recommend Correction
+    if (cf > 0.0 && glucoseLevel > targetBG + 2.0) {
+        double correction = (glucoseLevel - targetBG) / cf;
+        correction = std::round(correction * 100.0) / 100.0;
+
+        qDebug() << "[DEBUG] Triggering Correction | Correction Dose:" << correction;
+
         logEntry += QString(" - Recommend correction: %1 u").arg(correction, 0, 'f', 2);
 
-        int correctionUnits = static_cast<int>(correction); // Convert to integer units
-        controller->registerInsulinDelivery(correctionUnits); // Apply simulated dose
+        int correctionUnits = static_cast<int>(correction);
+        controller->registerInsulinDelivery(correctionUnits);
 
-        logEntry += "\nRecommended Correction Dose Administered";
-    } else if (glucoseLevel < targetBG - 1.0) {
+        ui->plainTextEdit_CGMLogs->appendPlainText(
+            QString("[%1] Insulin Delivered (Auto): %2 u").arg(simTime).arg(correctionUnits)
+        );
+        ui->plainTextEdit_CGMLogs->appendPlainText("Recommended Correction Dose Administered");
+    }
+    // Recommend Carbs
+    else if (glucoseLevel < targetBG - 1.0) {
+        qDebug() << "[DEBUG] BG below target - recommending carbs.";
         logEntry += " - Consider carb intake";
     }
+    // No action
+    else {
+        qDebug() << "[DEBUG] BG within acceptable range - no action taken.";
+    }
 
+    // CRITICAL warning logs
+    if (glucoseLevel <= 2.8)
+        ui->plainTextEdit_CGMLogs->appendPlainText(QString("[%1] CRITICAL: BG dangerously low!").arg(simTime));
+    if (glucoseLevel >= 15.0)
+        ui->plainTextEdit_CGMLogs->appendPlainText(QString("[%1] CRITICAL: BG dangerously high!").arg(simTime));
+
+    // Final event log
+    qDebug() << "[CGM] LogEntry Created:" << logEntry;
     ui->plainTextEdit_CGMLogs->appendPlainText(logEntry);
+
+    double predictedBG30min = cgmManager->predictGlucoseLevels(newBG, IOB, carbs, basalRate, 30).last().second;
+
+    if (predictedBG30min <= 3.9) {
+        controller->setBasalRate(0.0);
+        ui->plainTextEdit_CGMLogs->appendPlainText(QString("[%1] Suspended due to predicted low BG").arg(simTime));
+    }
+    else if (predictedBG30min <= 5.0) {
+        controller->adjustBasalRate(-0.3);
+        ui->plainTextEdit_CGMLogs->appendPlainText(QString("[%1] Basal rate decreased").arg(simTime));
+    }
+    else if (predictedBG30min >= 8.9) {
+        controller->adjustBasalRate(+0.3);
+        ui->plainTextEdit_CGMLogs->appendPlainText(QString("[%1] Basal rate increased").arg(simTime));
+    }
+
+    QDateTime timeNow = QDateTime::currentDateTime();
+    int minsSinceLastAuto = lastAutoCorrectionTime.isValid() ? lastAutoCorrectionTime.secsTo(timeNow) / 60 : 999;
+
+    if (predictedBG30min >= 10.0 && minsSinceLastAuto >= 60) {
+        double correction = (predictedBG30min - targetBG) / CF;
+        if (correction > 6.0) correction = 6.0;
+
+        int correctionUnits = static_cast<int>(correction);
+        controller->registerInsulinDelivery(correctionUnits);
+
+        lastAutoCorrectionTime = timeNow;
+
+        ui->plainTextEdit_CGMLogs->appendPlainText(
+            QString("[%1] Auto correction bolus: %2 u").arg(simTime).arg(correctionUnits)
+        );
+    }
+
+
 }
+
 
 void MainWindow::updateGlucoseChart(double time, double glucoseLevel) {
     if (!glucoseSeries) return;
@@ -643,36 +757,48 @@ void MainWindow::updateGlucoseChart(double time, double glucoseLevel) {
     // Clamp axis ranges to reasonable glucose values
     if (maxY < 12.0) maxY = 12.0;
     if (minY > 3.0) minY = 3.0;
-    glucoseAxisY->setRange(minY, maxY);
+    glucoseAxisY->setRange(qMax(2.0, minY - 0.5), qMin(20.0, maxY + 1.0));
+    //glucoseAxisY->setRange(minY, maxY);
 
     updatePredictions(time, glucoseLevel); // Refresh prediction line
 }
 
 void MainWindow::updatePredictions(double currentTime, double currentGlucose) {
-    predictionSeries->clear(); // Remove existing predictions
-    predictionSeries->append(currentTime, currentGlucose); // Start prediction from now
+    predictionSeries->clear();
+    predictionSeries->append(currentTime, currentGlucose);
 
-    double insulinOnBoard = ui->spinBox_IOB->value();
-    double carbsOnBoard = ui->spinBox_Carbs->value();
+    double insulinOnBoard = ui->doubleSpinBox_IOB->value();
+    double carbsOnBoard = ui->doubleSpinBox_Carbs->value();
 
-    // Predict glucose for every 5 minutes up to 1 hour
+    double insulinDecayRate = 0.15;
+    double carbDecayRate = 0.015;
+
     for (int i = 5; i <= 60; i += 5) {
         double timePoint = currentTime + i;
 
-        // Simulate insulin action (peaks at 30 min)
-        double insulinEffect = insulinOnBoard * 0.1 * (i / 30.0);
-        if (i > 30) insulinEffect = insulinOnBoard * 0.1 * (2 - (i / 30.0));
-        if (insulinEffect < 0) insulinEffect = 0;
+        // Linear decay of insulin & carbs
+        double insulinEffect = insulinOnBoard * insulinDecayRate * (1.0 - (i / 60.0));
+        double carbEffect = carbsOnBoard * carbDecayRate * (1.0 - (i / 60.0));
 
-        // Simulate carb absorption (peaks around 20 min)
-        double carbEffect = carbsOnBoard * 0.01 * (i / 20.0);
-        if (i > 20) carbEffect = carbsOnBoard * 0.01 * (3 - (i / 20.0));
+        if (insulinEffect < 0) insulinEffect = 0;
         if (carbEffect < 0) carbEffect = 0;
 
         double predictedGlucose = currentGlucose + carbEffect - insulinEffect;
+
+        // Small smoothing oscillation
+        double hoverOffset = 0.1 * std::sin(timePoint / 60.0 * 2 * M_PI);
+        predictedGlucose += hoverOffset;
+
+        // Clamp prediction
+        if (predictedGlucose < 2.5)
+            predictedGlucose = 2.5;
+        else if (predictedGlucose > 15.0)
+            predictedGlucose = 15.0;
+
         predictionSeries->append(timePoint, predictedGlucose);
     }
 }
+
 
 void MainWindow::on_pushButton_StopDelivery_clicked() {
     ui->plainTextEdit_CGMLogs->appendPlainText("Manual bolus delivery stopped by user.");
@@ -734,9 +860,9 @@ void MainWindow::on_pushButton_logInAccount_clicked() {
         ui->spinBox_TargetBG_2->setValue(current->targetBG);
 
         // Update calculation page
-        ui->spinBox_ICR->setValue(current->carbRatio);
-        ui->spinBox_CF->setValue(current->correctionFactor);
-        ui->spinBox_TargetBG->setValue(current->targetBG);
+        ui->doubleSpinBox_ICR->setValue(current->carbRatio);
+        ui->doubleSpinBox_CF->setValue(current->correctionFactor);
+        ui->doubleSpinBox_TargetBG->setValue(current->targetBG);
 
         qDebug() << "[Login] Spinboxes updated across both pages.";
     } else {
@@ -771,9 +897,9 @@ void MainWindow::on_pushButton_updateAccount_clicked()
 {
     QString profileName = ui->comboBox_ProfileSelector->currentText();
     double basalRate = ui->spinBox_Basal->value();
-    double carbRatio = ui->spinBox_ICR->value();
-    double correction = ui->spinBox_CF->value();
-    double target = ui->spinBox_TargetBG->value();
+    double carbRatio = ui->doubleSpinBox_ICR->value();
+    double correction = ui->doubleSpinBox_CF->value();
+    double target = ui->doubleSpinBox_TargetBG->value();
 
     bool updated = user.editProfile(profileName, basalRate, carbRatio, correction, target);
 
@@ -809,7 +935,7 @@ void MainWindow::populateCalculationFromProfile(Profile* profile) {
     if (!profile) return;
 
     // Ensures spinbox values in calculationpage correspond to values from profile page
-    ui->spinBox_ICR->setValue(profile->carbRatio);
-    ui->spinBox_CF->setValue(profile->correctionFactor);
-    ui->spinBox_TargetBG->setValue(profile->targetBG);
+    ui->doubleSpinBox_ICR->setValue(profile->carbRatio);
+    ui->doubleSpinBox_CF->setValue(profile->correctionFactor);
+    ui->doubleSpinBox_TargetBG->setValue(profile->targetBG);
 }

@@ -17,14 +17,14 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>-20</x>
-      <y>50</y>
+      <x>0</x>
+      <y>30</y>
       <width>1091</width>
       <height>511</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="profilelogin">
      <widget class="QLabel" name="label">

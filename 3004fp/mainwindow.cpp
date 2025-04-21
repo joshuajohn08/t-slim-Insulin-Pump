@@ -485,7 +485,7 @@ void MainWindow::setupGlucoseChart() {
     double targetLow = 4.0;
     QLineSeries *targetLowLine = new QLineSeries();
     targetLowLine->append(0, targetLow);
-    targetLowLine->append(300, targetLow);
+    targetLowLine->append(360, targetLow);
     targetLowLine->setName("Target Low");
     QPen lowPen(QColor(0, 180, 0));
     lowPen.setWidth(1);
@@ -499,7 +499,7 @@ void MainWindow::setupGlucoseChart() {
     double targetHigh = 7.0;
     QLineSeries *targetHighLine = new QLineSeries();
     targetHighLine->append(0, targetHigh);
-    targetHighLine->append(300, targetHigh);
+    targetHighLine->append(360, targetHigh);
     targetHighLine->setName("Target High");
     QPen highPen(QColor(180, 0, 0));
     highPen.setWidth(1);

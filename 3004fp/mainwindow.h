@@ -47,7 +47,6 @@ private slots:
     // Manual bolus calculation and confirmation
     void on_pushButton_Calculate_clicked();
     void on_pushButton_ConfirmBolus_clicked();
-    void on_pushButton_CancelConfirm_clicked();
     void on_pushButton_ConfirmYes_clicked();
 
     // Profile management actions

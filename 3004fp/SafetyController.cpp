@@ -59,18 +59,18 @@ void SafetyController::decreaseInsulin() {
 
 // Called when insulin is added to the reservoir (e.g., refill)
 void SafetyController::registerInsulinDelivery(double amount) {
-    qDebug() << "[Controller] Insulin added:" << amount << " -> new total:" << insulinLevel;
-
+    if (amount > 0) return;
     insulinLevel += amount;
-    if (insulinLevel > 200) insulinLevel = 200;
     if (insulinLevel < 0) insulinLevel = 0;
-
     emit insulinLevelUpdated(insulinLevel);
 
-    // Reset low insulin alert if insulin level is safe again
-    if (insulinLevel > 50)
-        lowInsulinWarned = false;
+    if (insulinLevel <= 20 && !lowInsulinWarned) {
+        emit triggerLowInsulinAlert();
+        lowInsulinWarned = true;
+    }
 }
+
+
 
 void SafetyController::setBasalRate(double rate) {
     currentBasalRate = rate;
@@ -87,3 +87,10 @@ void SafetyController::adjustBasalRate(double adjustment) {
 double SafetyController::getBasalRate() const {
     return currentBasalRate;
 }
+
+void SafetyController::refillInsulin() {
+    insulinLevel = 200;
+    emit insulinLevelUpdated(insulinLevel);
+    lowInsulinWarned = false;
+}
+

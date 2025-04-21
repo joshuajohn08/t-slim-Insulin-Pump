@@ -35,6 +35,9 @@ public slots:
     // Recharge battery to full
     void rechargeBattery();
 
+    // Refill insulin
+    void refillInsulin();
+
     // Automatically reduce insulin over time
     void decreaseInsulin();
 

@@ -17,14 +17,14 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>-20</x>
       <y>50</y>
       <width>1091</width>
       <height>511</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="profilelogin">
      <widget class="QLabel" name="label">
@@ -1449,6 +1449,19 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="format">
      <string notr="true">%v u</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_RefillInsulin">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>10</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refill Insulin</string>
     </property>
    </widget>
   </widget>

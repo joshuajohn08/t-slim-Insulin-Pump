@@ -77,8 +77,12 @@ MainWindow::MainWindow(QWidget *parent)
             ui->insulinProgressBar->setStyleSheet("QProgressBar::chunk { background-color: green; }");
     });
 
+    ui->insulinProgressBar->setRange(0, 200);
+    ui->insulinProgressBar->setValue(100);
+
+
     connect(controller, &SafetyController::triggerLowInsulinAlert, this, [=]() {
-        QMessageBox::critical(this, "Low Insulin", "LOW INSULIN: Please administer insulin.");
+        QMessageBox::critical(this, "Low Insulin", "LOW INSULIN: Please refill insulin.");
     });
 
     // Cancel ongoing bolus delivery
@@ -89,6 +93,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     double newIOB = qMax(0.0, ui->doubleSpinBox_IOB->value() - 0.1); // Decrease IOB every 5 min
     ui->doubleSpinBox_IOB->setValue(newIOB);
+
+    connect(ui->pushButton_RefillInsulin, &QPushButton::clicked, this, [=]() {
+        controller->refillInsulin();
+    });
 
 }
 
@@ -229,11 +237,6 @@ void MainWindow::on_pushButton_ConfirmBolus_clicked() {
 
     // Hide delivery box until explicitly confirmed
     ui->groupBox_DeliverBolus->setVisible(false);
-}
-
-void MainWindow::on_pushButton_CancelConfirm_clicked() {
-    // Navigate back to calculation page
-    ui->stackedWidget->setCurrentWidget(ui->calculationpage);
 }
 
 void MainWindow::on_pushButton_ConfirmYes_clicked() {
@@ -383,41 +386,50 @@ void MainWindow::on_pushButton_summaryConfirm_clicked_clicked() {
 }
 
 void MainWindow::on_pushButton_FinalDeliver_3_clicked() {
-    // Deliver bolus and update insulin level
-    BolusResult result = bolusManager.getLastResult();
     cancelExtendedBolus = false;
 
-    int immediate = static_cast<int>(result.immediateBolus);
-    controller->registerInsulinDelivery(immediate);
+    QString labelText = ui->label_BolusAmounts->text();
+
+    // Split on "+"
+    QStringList parts = labelText.split("+");
+    double nowUnits = 0.0, laterUnits = 0.0;
+
+    if (parts.size() == 2) {
+        // Extract "X u Now", trim, split by space, get first token
+        QString nowPart = parts[0].trimmed();
+        QString laterPart = parts[1].trimmed();
+
+        nowUnits = nowPart.split(" ").first().toDouble();
+        laterUnits = laterPart.split(" ").first().toDouble();
+    }
+
+    double totalUnits = nowUnits + laterUnits;
+
+    // Simulate delivery after 3 sec
+    QTimer::singleShot(3000, this, [=]() {
+        if (!cancelExtendedBolus) {
+            controller->registerInsulinDelivery(-totalUnits);
+
+            QMessageBox *msg = new QMessageBox(this);
+            msg->setIcon(QMessageBox::Information);
+            msg->setWindowTitle("Bolus Delivery");
+            msg->setText(QString("Delivered %1 u insulin.").arg(totalUnits, 0, 'f', 2));
+            msg->setStandardButtons(QMessageBox::Ok);
+
+            connect(msg, &QMessageBox::accepted, this, [=]() {
+                ui->stackedWidget->setCurrentWidget(ui->calculationpage);
+            });
+
+            msg->exec();
+        }
+    });
 
     double totalBolus = ui->spinBox_TotalBolus->value();
     ui->label_ManualRequest->setText(QString("Requesting %1 u Bolus").arg(totalBolus, 0, 'f', 2));
     ui->stackedWidget->setCurrentWidget(ui->manualBolusPage);
-
-    // Wait 3 seconds to simulate delivery delay
-    QTimer::singleShot(3000, this, [=]() {
-        if (!cancelExtendedBolus) {
-            int later = static_cast<int>(result.extendedBolus);
-            if (later > 0) {
-                controller->registerInsulinDelivery(later);
-
-                QMessageBox *msg = new QMessageBox(this);
-                msg->setIcon(QMessageBox::Information);
-                msg->setWindowTitle("Extended Bolus");
-                msg->setText("Extended Bolus Delivery has now been administered.");
-                msg->setStandardButtons(QMessageBox::Ok);
-
-                connect(msg, &QMessageBox::accepted, this, [=]() {
-                    ui->stackedWidget->setCurrentWidget(ui->calculationpage);
-                });
-
-                msg->exec();
-            }
-        } else {
-            qDebug() << "Extended bolus was canceled before administration.";
-        }
-    });
 }
+
+
 
 // Glucose Chart Setup
 void MainWindow::setupGlucoseChart() {
@@ -572,6 +584,13 @@ void MainWindow::startCGMSimulation() {
         .arg(QDateTime::currentDateTime().toString("hh:mm:ss"))
         .arg(initialGlucose, 0, 'f', 1)
     );
+
+    QTimer *insulinUseTimer = new QTimer(this);
+    connect(insulinUseTimer, &QTimer::timeout, this, [=]() {
+        controller->registerInsulinDelivery(3);  // arbitrary insulin drop per interval
+    });
+    insulinUseTimer->start(1000); // 1 sec = 5 min sim
+
 }
 
 void MainWindow::updateCGMDisplay() {
@@ -614,9 +633,9 @@ void MainWindow::updateCGMDisplay() {
     }
 
     // Simulate basal insulin use
-    double basalRate = controller->getBasalRate(); // units/hour
-    double basalUsed = basalRate / 12.0;           // units per 5 minutes
-    controller->registerInsulinDelivery(-basalUsed); // depletes insulin
+    int drop = (timeElapsed / 5) % 12; // simulate 12 values
+    int simDrop = (drop == 4 || drop == 8 || drop == 12) ? 3 : 3;
+    controller->registerInsulinDelivery(-simDrop);
 
     // Update displayed BG and chart
     ui->doubleSpinBox_BG->setValue(newBG);

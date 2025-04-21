@@ -70,27 +70,28 @@ void SafetyController::registerInsulinDelivery(double amount) {
     }
 }
 
-
-
+// Sets the current basal insulin delivery rate (in units/hour)
 void SafetyController::setBasalRate(double rate) {
     currentBasalRate = rate;
     qDebug() << "[SafetyController] Basal rate set to" << rate << "u/h";
 }
 
+// Adjusts the current basal rate by a specified amount, with safety limits
 void SafetyController::adjustBasalRate(double adjustment) {
     currentBasalRate += adjustment;
-    if (currentBasalRate < 0.05) currentBasalRate = 0.05;
-    if (currentBasalRate > 5.0) currentBasalRate = 5.0;
+    if (currentBasalRate < 0.05) currentBasalRate = 0.05;  // Minimum threshold
+    if (currentBasalRate > 5.0) currentBasalRate = 5.0;    // Maximum threshold
     qDebug() << "[SafetyController] Basal rate adjusted by" << adjustment << "->" << currentBasalRate;
 }
 
+// Returns the current basal rate
 double SafetyController::getBasalRate() const {
     return currentBasalRate;
 }
 
+// Refills insulin reservoir to full capacity (200 units) and resets alert flag
 void SafetyController::refillInsulin() {
     insulinLevel = 200;
     emit insulinLevelUpdated(insulinLevel);
     lowInsulinWarned = false;
 }
-

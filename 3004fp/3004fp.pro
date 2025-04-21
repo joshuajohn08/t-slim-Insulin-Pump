@@ -12,16 +12,16 @@ SOURCES += \
     BolusManager.cpp \
     CGMManager.cpp \
     SafetyController.cpp \
+    UserProfile.cpp \
     main.cpp \
-    mainwindow.cpp \
-    user.cpp
+    mainwindow.cpp
 
 HEADERS += \
     BolusManager.h \
     CGMManager.h \
     SafetyController.h \
-    mainwindow.h \
-    user.h
+    UserProfile.h \
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui

@@ -10,6 +10,7 @@ class SafetyController : public QObject
     Q_OBJECT
 
 public:
+    // Constructor initializes safety controller with parent context
     explicit SafetyController(QObject *parent = nullptr);
 
 signals:
@@ -44,8 +45,13 @@ public slots:
     // Update insulin level on manual delivery
     void registerInsulinDelivery(double);
 
+    // Set a new basal rate (u/h) for insulin delivery
     void setBasalRate(double rate);
+
+    // Adjust the current basal rate by a specified amount
     void adjustBasalRate(double adjustment);
+
+    // Retrieve the current basal rate (u/h)
     double getBasalRate() const;
 
 private:
@@ -55,8 +61,7 @@ private:
 
     int insulinLevel = 100;          // Initial insulin units
     bool lowInsulinWarned = false;   // Tracks if low insulin warning has been issued
-    double currentBasalRate = 1.0; // Default rate in u/h
-
+    double currentBasalRate = 1.0;   // Default rate in u/h
 };
 
 #endif // SAFETYCONTROLLER_H

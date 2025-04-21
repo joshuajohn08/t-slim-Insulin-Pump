@@ -94,6 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
     double newIOB = qMax(0.0, ui->doubleSpinBox_IOB->value() - 0.1); // Decrease IOB every 5 min
     ui->doubleSpinBox_IOB->setValue(newIOB);
 
+    // Refill insulin bar
     connect(ui->pushButton_RefillInsulin, &QPushButton::clicked, this, [=]() {
         controller->refillInsulin();
     });
@@ -261,8 +262,6 @@ void MainWindow::on_pushButton_ConfirmYes_clicked() {
 }
 
 void MainWindow::on_pushButton_FinalDeliver_clicked() {
-    qDebug() << "Final Deliver Button Clicked";
-
     BolusResult result = bolusManager.getLastResult();
     double finalBolus = result.finalBolus;
     double foodBolus = result.carbBolus;
@@ -296,7 +295,6 @@ void MainWindow::on_pushButton_FinalDeliver_clicked() {
 
     ui->label_BolusAmounts->setText(bolusText);
     ui->stackedWidget->setCurrentWidget(ui->bolusInitiatedPage);
-    qDebug() << "Navigated to bolusInitiatedPage (non-extended)";
 }
 
 void MainWindow::on_pushButton_ViewUnits_clicked() {
@@ -382,7 +380,6 @@ void MainWindow::on_pushButton_summaryConfirm_clicked_clicked() {
 
     ui->label_BolusAmounts->setText(bolusText);
     ui->stackedWidget->setCurrentWidget(ui->bolusInitiatedPage);
-    qDebug() << "Navigated to bolusInitiatedPage (extended)";
 }
 
 void MainWindow::on_pushButton_FinalDeliver_3_clicked() {

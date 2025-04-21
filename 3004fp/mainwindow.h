@@ -5,7 +5,7 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChart>
-#include "user.h"
+#include "UserProfile.h"
 #include <QtCharts/QValueAxis>
 #include "BolusManager.h"
 #include <QDebug>

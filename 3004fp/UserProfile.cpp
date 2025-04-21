@@ -1,4 +1,4 @@
-#include "user.h"
+#include "UserProfile.h"
 
 // Constructor initializes 3 default user profiles with predefined settings
 User::User() {

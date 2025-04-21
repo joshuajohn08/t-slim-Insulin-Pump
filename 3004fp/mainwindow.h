@@ -5,7 +5,7 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChart>
-#include "user.h"
+#include "UserProfile.h"
 #include <QtCharts/QValueAxis>
 #include "BolusManager.h"
 #include <QDebug>
@@ -47,7 +47,6 @@ private slots:
     // Manual bolus calculation and confirmation
     void on_pushButton_Calculate_clicked();
     void on_pushButton_ConfirmBolus_clicked();
-    void on_pushButton_CancelConfirm_clicked();
     void on_pushButton_ConfirmYes_clicked();
 
     // Profile management actions
@@ -77,10 +76,10 @@ private slots:
     void on_pushButton_StartCGM_2_clicked();
     void on_pushButton_calcBack_2_clicked();
     void on_pushButton_BackToConfirm_4_clicked();
+    bool canAutoCorrect();
 
     // Stop ongoing insulin delivery
     void on_pushButton_StopDelivery_clicked();
-
     void on_pushButton_calcBack_clicked();
 
 private:
@@ -111,6 +110,15 @@ private:
     void handleCGMReading(double glucoseLevel);
     void startCGMSimulation();
     void updatePredictions(double currentTime, double currentGlucose);
+    int cgmSimElapsed = 0;     // How many seconds have passed
+    int cgmSimDuration = 0;    // Total seconds to simulate
+    int simulatedMinutesElapsed = 0;
+    QTime simulatedStartTime;
+    int correctionUnits;
+    QDateTime lastAutoCorrectionTime;
+    int timeElapsed = 5; // Simulated minutes (starts at 5)
+    int insulinLevel;
+    bool lowInsulinWarned;
 
     QTimer *cgmSimulationTimer;     // Timer to simulate CGM readings
 

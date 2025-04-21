@@ -17,8 +17,8 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>-10</x>
-      <y>-10</y>
+      <x>0</x>
+      <y>30</y>
       <width>1091</width>
       <height>511</height>
      </rect>
@@ -117,6 +117,9 @@
         <width>51</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="value">
+       <number>3</number>
       </property>
      </widget>
      <widget class="QLabel" name="label_10">
@@ -356,7 +359,7 @@ p, li { white-space: pre-wrap; }
       <property name="title">
        <string>Inputs</string>
       </property>
-      <widget class="QSpinBox" name="spinBox_Carbs">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_Carbs">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -366,7 +369,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="value">
-        <number>30</number>
+        <double>0.000000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="label_31">
@@ -382,17 +385,17 @@ p, li { white-space: pre-wrap; }
         <string>Carbs</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_BG">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_BG">
        <property name="geometry">
         <rect>
-         <x>90</x>
+         <x>120</x>
          <y>40</y>
          <width>81</width>
          <height>41</height>
         </rect>
        </property>
        <property name="value">
-        <number>12</number>
+        <double>12.000000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="label_32">
@@ -408,7 +411,7 @@ p, li { white-space: pre-wrap; }
         <string>Blood Glucose (mmol/L)</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_ICR">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_ICR">
        <property name="geometry">
         <rect>
          <x>250</x>
@@ -418,7 +421,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="value">
-        <number>0</number>
+        <double>10.000000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="label_33">
@@ -434,7 +437,7 @@ p, li { white-space: pre-wrap; }
         <string>ICR (insulin-carb ratio)</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_CF">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_CF">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -444,7 +447,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="value">
-        <number>0</number>
+        <double>2.000000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="label_34">
@@ -460,7 +463,7 @@ p, li { white-space: pre-wrap; }
         <string>CF (Correction Factor</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_TargetBG">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_TargetBG">
        <property name="geometry">
         <rect>
          <x>150</x>
@@ -470,7 +473,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="value">
-        <number>0</number>
+        <double>6.000000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="label_35">
@@ -486,7 +489,7 @@ p, li { white-space: pre-wrap; }
         <string>Target BG</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_IOB">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_IOB">
        <property name="geometry">
         <rect>
          <x>260</x>
@@ -494,6 +497,9 @@ p, li { white-space: pre-wrap; }
          <width>81</width>
          <height>41</height>
         </rect>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
        </property>
       </widget>
       <widget class="QLabel" name="label_3">
@@ -1368,6 +1374,36 @@ p, li { white-space: pre-wrap; }
        <string>Back</string>
       </property>
      </widget>
+     <widget class="QComboBox" name="comboBox_CGM_Duration">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>220</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Choose a duration</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>1 hour</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>3 hours</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>6 hours</string>
+       </property>
+      </item>
+     </widget>
     </widget>
    </widget>
    <widget class="QProgressBar" name="batteryProgressBar">
@@ -1413,6 +1449,19 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="format">
      <string notr="true">%v u</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_RefillInsulin">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>10</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refill Insulin</string>
     </property>
    </widget>
   </widget>

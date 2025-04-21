@@ -1,5 +1,6 @@
 #include "SafetyController.h"
 #include <QString>
+#include <QDebug>
 
 // Constructor initializes battery level and starts timer for simulating battery drain
 SafetyController::SafetyController(QObject *parent)
@@ -57,13 +58,40 @@ void SafetyController::decreaseInsulin() {
 }
 
 // Called when insulin is added to the reservoir (e.g., refill)
-void SafetyController::registerInsulinDelivery(int amount) {
+void SafetyController::registerInsulinDelivery(double amount) {
+    if (amount > 0) return;
     insulinLevel += amount;
-    if (insulinLevel > 200) insulinLevel = 200; // Max capacity limit
-
+    if (insulinLevel < 0) insulinLevel = 0;
     emit insulinLevelUpdated(insulinLevel);
 
-    // Reset low insulin alert if insulin level is safe again
-    if (insulinLevel > 50)
-        lowInsulinWarned = false;
+    if (insulinLevel <= 20 && !lowInsulinWarned) {
+        emit triggerLowInsulinAlert();
+        lowInsulinWarned = true;
+    }
+}
+
+// Sets the current basal insulin delivery rate (in units/hour)
+void SafetyController::setBasalRate(double rate) {
+    currentBasalRate = rate;
+    qDebug() << "[SafetyController] Basal rate set to" << rate << "u/h";
+}
+
+// Adjusts the current basal rate by a specified amount, with safety limits
+void SafetyController::adjustBasalRate(double adjustment) {
+    currentBasalRate += adjustment;
+    if (currentBasalRate < 0.05) currentBasalRate = 0.05;  // Minimum threshold
+    if (currentBasalRate > 5.0) currentBasalRate = 5.0;    // Maximum threshold
+    qDebug() << "[SafetyController] Basal rate adjusted by" << adjustment << "->" << currentBasalRate;
+}
+
+// Returns the current basal rate
+double SafetyController::getBasalRate() const {
+    return currentBasalRate;
+}
+
+// Refills insulin reservoir to full capacity (200 units) and resets alert flag
+void SafetyController::refillInsulin() {
+    insulinLevel = 200;
+    emit insulinLevelUpdated(insulinLevel);
+    lowInsulinWarned = false;
 }

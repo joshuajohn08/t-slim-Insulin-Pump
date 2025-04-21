@@ -129,6 +129,7 @@ bool CGMManager::adjustInsulinDelivery(double currentGlucose, double targetGluco
         newBasalRate = currentBasalRate * 2; // Maximum double the programmed rate
     }
 
+    // Relevant debug statements we decided to keep for testing
     qDebug() << "CGM adjusted insulin delivery: Current BG:" << currentGlucose
              << "Target:" << targetGlucose
              << "Adjustment:" << adjustment
@@ -184,11 +185,13 @@ QVector<QPair<double, double>> CGMManager::predictGlucoseLevels(double currentGl
     return predictions;
 }
 
+// Sets the thresholds for low and high glucose alerts
 void CGMManager::setAlerts(double lowGlucoseThreshold, double highGlucoseThreshold) {
     m_lowGlucoseThreshold = lowGlucoseThreshold;
     m_highGlucoseThreshold = highGlucoseThreshold;
 }
 
+// Checks whether the current glucose value triggers a low or high alert
 bool CGMManager::checkAlerts(double currentGlucose) {
     bool isAlert = false;
 
@@ -203,11 +206,12 @@ bool CGMManager::checkAlerts(double currentGlucose) {
     return isAlert;
 }
 
+// Returns the most recent glucose reading, or a default if no readings exist
 CGMManager::GlucoseReading CGMManager::getLatestReading() const {
     if (!m_readings.isEmpty()) {
         return m_readings.last();
     } else {
-        // Return empty reading if no data
+        // Return default reading if history is empty
         GlucoseReading empty;
         empty.timestamp = QDateTime::currentDateTime();
         empty.value = 0.0;

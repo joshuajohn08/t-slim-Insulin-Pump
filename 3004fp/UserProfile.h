@@ -1,5 +1,5 @@
-#ifndef USER_H
-#define USER_H
+#ifndef USERPROFILE_H
+#define USERPROFILE_H
 
 #include <QString>
 #include <vector>
@@ -45,4 +45,4 @@ private:
     QString activeProfile;                // Name of the active profile
 };
 
-#endif // USER_H
+#endif // USERPROFILE_H
